@@ -1,6 +1,6 @@
-# dateeng
+# TP 2 Date Engineering
 
-Consulto la API de Alpha Advantage, con los valores de distintas acciones:
+Consulto la API de Alpha Advantage, para obtener los valores de distintas acciones:
 
 TIME_SERIES_DAILY_ADJUSTED 
 This API returns raw (as-traded) daily open/high/low/close/volume values, daily adjusted close values, and historical split/dividend events of the global equity specified, covering 20+ years of historical data.
