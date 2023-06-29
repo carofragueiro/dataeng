@@ -34,8 +34,19 @@ r = requests.get(url)
 data = r.json()
 
 
-
 # creo la tabla 
+ibm_tabla = engine.connect("""CREATE TABLE IF NOT EXISTS 'IBM_data'
+               (
+                date, VARCHAR(80) distkey,
+                open, VARCHAR(80),
+                high, VARCHAR(80),
+                low, VARCHAR(80),
+                close, VARCHAR(80),
+                symbol, VARCHAR(80), 
+               ) sortkey(date);
+               """)
+
+
 from sqlalchemy import MetaData
 meta = MetaData()
 
@@ -46,18 +57,12 @@ sqlalchemy.Column('date', sqlalchemy.VARCHAR(80)),
 sqlalchemy.Column('open', sqlalchemy.VARCHAR(80)),
 sqlalchemy.Column('high', sqlalchemy.VARCHAR(80)),
 sqlalchemy.Column('low', sqlalchemy.VARCHAR(80)),
-sqlalchemy.Column('close', sqlalchemy.VARCHAR(80))
+sqlalchemy.Column('close', sqlalchemy.VARCHAR(80)),
+sqlalchemy.Column('symbol', sqlalchemy.VARCHAR(80)),
 )
 
-# si ya existe la borro y luego la creo
-if sqlalchemy.inspect(engine).has_table('ibm_data'):
-    RedshiftDBTable.drop(bind=engine)
-
-RedshiftDBTable.create(bind=engine)
-
-
 # preparo el insert
-
+from sqlalchemy import insert
 from sqlalchemy import orm as sa_orm
 
 Session = sa_orm.sessionmaker()
@@ -71,6 +76,7 @@ for dia in data['Time Series (Daily)']:
             high=data['Time Series (Daily)'][dia]["2. high"],
             low=data['Time Series (Daily)'][dia]["3. low"],
             close=data['Time Series (Daily)'][dia]["4. close"],
+            symbol='IBM'
          )
         # ejecuto el insert
     session.execute(insert_data_row)
