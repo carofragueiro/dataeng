@@ -1,4 +1,4 @@
-# TP 2 Date Engineering
+# TP 2 Data Engineering
 
 Consulto la API de Alpha Advantage, para obtener los valores de distintas acciones:
 
